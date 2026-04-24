@@ -1,0 +1,64 @@
+:root {
+  --pr-surface-bg:      oklch(97% 0.003 100);
+  --pr-surface:         oklch(100% 0 0);
+  --pr-surface-mid:     oklch(94% 0.004 100);
+  --pr-surface-dark:    oklch(13% 0.005 60);
+  --pr-text:            oklch(13% 0.005 60);
+  --pr-text-2:          oklch(38% 0.008 60);
+  --pr-text-3:          oklch(64% 0.008 60);
+  --pr-text-inv:        oklch(97% 0.003 100);
+  --pr-orange:          oklch(57% 0.205 38);
+  --pr-orange-dim:      oklch(57% 0.205 38 / 0.08);
+  --pr-border:          oklch(13% 0.005 60);
+  --pr-border-mid:      oklch(80% 0.006 100);
+  --pr-border-light:    oklch(88% 0.005 100);
+  --pr-font-display:    'Syne', sans-serif;
+  --pr-font-body:       'DM Sans', sans-serif;
+  --pr-font-mono:       'JetBrains Mono', monospace;
+  --pr-page-margin:     40px;
+  --pr-section-pad:     72px;
+  --pr-max-width:       1200px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  background: var(--pr-surface-bg);
+  color: var(--pr-text);
+}
+
+body {
+  font-family: var(--pr-font-body);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.65;
+  background: var(--pr-surface-bg);
+}
+
+@keyframes press-mark {
+  from { clip-path: inset(0 100% 0 0); }
+  to   { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes hard-land {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes stamp {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(0.94); }
+  100% { transform: scale(1); }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --pr-page-margin: 20px;
+    --pr-section-pad: 48px;
+  }
+}

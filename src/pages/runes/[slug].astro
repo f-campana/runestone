@@ -1,5 +1,6 @@
 ---
 import { getCollection, render } from 'astro:content';
+import PressLayout from '../../components/PressLayout.astro';
 
 export async function getStaticPaths() {
   const runes = await getCollection('runes');
@@ -11,20 +12,225 @@ export async function getStaticPaths() {
 
 const { rune } = Astro.props;
 const { Content } = await render(rune);
+const archetypes = rune.data.archetypes.join(' + ');
+const radarLabels = ['DEN','TEM','LUM','ENE','GEO','CHR','DEP','POS'];
+const radarValues = rune.data.radar.split('-').map(Number);
 ---
 
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{rune.data.name} — Runestone</title>
-  </head>
-  <body>
-    <h1>{rune.data.name}</h1>
-    <p>Archetypes: {rune.data.archetypes.join(' + ')}</p>
-    <p>Radar: {rune.data.radar}</p>
-    <p>Test sentence: {rune.data.test_sentence}</p>
-    <Content />
-  </body>
-</html>
+<PressLayout title={`${rune.data.name} — Runestone`}>
+
+  <!-- HERO -->
+  <section style="
+    padding: var(--pr-section-pad) var(--pr-page-margin);
+    border-bottom: 2px solid var(--pr-border);
+    background: var(--pr-surface-bg);
+  ">
+    <div style="max-width: var(--pr-max-width); margin: 0 auto;">
+      <div style="
+        font-family: var(--pr-font-mono);
+        font-size: 9px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--pr-orange);
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      ">
+        <span style="display:block;width:20px;height:2px;background:var(--pr-orange);"></span>
+        Design identity · {rune.data.status}
+      </div>
+      <h1 style="
+        font-family: var(--pr-font-display);
+        font-size: clamp(32px, 4vw, 64px);
+        font-weight: 800;
+        letter-spacing: -0.04em;
+        line-height: 0.92;
+        color: var(--pr-text);
+        margin-bottom: 24px;
+        overflow: hidden;
+      ">{rune.data.name}</h1>
+      <div style="
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 0;
+        border: 2px solid var(--pr-border);
+        margin-bottom: 32px;
+      ">
+        <div style="padding: 10px 16px; border-right: 2px solid var(--pr-border);">
+          <div style="font-family:var(--pr-font-mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--pr-text-3);margin-bottom:4px;">Archetypes</div>
+          <div style="font-family:var(--pr-font-display);font-size:14px;font-weight:800;letter-spacing:-0.02em;">{archetypes}</div>
+        </div>
+        <div style="padding: 10px 16px; border-right: 2px solid var(--pr-border);">
+          <div style="font-family:var(--pr-font-mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--pr-text-3);margin-bottom:4px;">Version</div>
+          <div style="font-family:var(--pr-font-mono);font-size:14px;font-weight:500;">{rune.data.version}</div>
+        </div>
+        <div style="padding: 10px 16px;">
+          <div style="font-family:var(--pr-font-mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--pr-text-3);margin-bottom:4px;">Namespace</div>
+          <div style="font-family:var(--pr-font-mono);font-size:14px;font-weight:500;">--{rune.data.namespace}-</div>
+        </div>
+      </div>
+      <p style="
+        font-family: var(--pr-font-body);
+        font-size: 15px;
+        font-weight: 300;
+        line-height: 1.75;
+        color: var(--pr-text-2);
+        max-width: 680px;
+      ">{rune.data.test_sentence}</p>
+    </div>
+  </section>
+
+  <!-- RADAR -->
+  <section style="
+    padding: var(--pr-section-pad) var(--pr-page-margin);
+    background: var(--pr-surface-mid);
+    border-bottom: 2px solid var(--pr-border);
+  ">
+    <div style="max-width: var(--pr-max-width); margin: 0 auto;">
+      <div style="
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border-bottom: 2px solid var(--pr-border);
+        padding-bottom: 10px;
+        margin-bottom: 24px;
+      ">
+        <h2 style="font-family:var(--pr-font-display);font-size:22px;font-weight:800;letter-spacing:-0.03em;">Radar</h2>
+        <span style="font-family:var(--pr-font-mono);font-size:9px;letter-spacing:.1em;color:var(--pr-orange);">{rune.data.radar}</span>
+      </div>
+      <div style="display:grid;gap:0;border:2px solid var(--pr-border);">
+        {radarLabels.map((label, i) => (
+          <div style="
+            display: grid;
+            grid-template-columns: 60px 40px 1fr;
+            align-items: center;
+            gap: 16px;
+            padding: 10px 16px;
+            border-bottom: 1px solid var(--pr-border-light);
+            background: var(--pr-surface);
+          ">
+            <div style="font-family:var(--pr-font-mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--pr-text-3);">{label}</div>
+            <div style="font-family:var(--pr-font-mono);font-size:13px;font-weight:500;color:var(--pr-orange);">{radarValues[i]}</div>
+            <div style="height:2px;background:var(--pr-border-light);">
+              <div style={`width:${radarValues[i] * 10}%;height:100%;background:var(--pr-orange);`}></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <section style="
+    padding: var(--pr-section-pad) var(--pr-page-margin);
+    background: var(--pr-surface-bg);
+  ">
+    <div style="max-width: var(--pr-max-width); margin: 0 auto;">
+      <div class="rune-content">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+</PressLayout>
+
+<style>
+  .rune-content h2 {
+    font-family: var(--pr-font-display);
+    font-size: clamp(18px, 2.5vw, 28px);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--pr-text);
+    margin: 48px 0 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--pr-border);
+  }
+  .rune-content h3 {
+    font-family: var(--pr-font-display);
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--pr-text);
+    margin: 28px 0 10px;
+  }
+  .rune-content p {
+    font-size: 13px;
+    font-weight: 300;
+    line-height: 1.8;
+    color: var(--pr-text-2);
+    margin-bottom: 14px;
+    max-width: 680px;
+  }
+  .rune-content pre {
+    font-family: var(--pr-font-mono);
+    font-size: 11px;
+    line-height: 1.8;
+    background: var(--pr-surface-mid);
+    border: 2px solid var(--pr-border);
+    padding: 16px;
+    overflow-x: auto;
+    margin: 16px 0;
+  }
+  .rune-content code {
+    font-family: var(--pr-font-mono);
+    font-size: 10px;
+    background: var(--pr-orange-dim);
+    color: var(--pr-orange);
+    padding: 1px 5px;
+    border: 1px solid rgba(232,78,8,.2);
+  }
+  .rune-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--pr-text-2);
+  }
+  .rune-content table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 2px solid var(--pr-border);
+    margin: 16px 0;
+  }
+  .rune-content th {
+    font-family: var(--pr-font-mono);
+    font-size: 8px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    padding: 8px 12px;
+    text-align: left;
+    background: var(--pr-surface-mid);
+    border-bottom: 2px solid var(--pr-border);
+    color: var(--pr-text-3);
+  }
+  .rune-content td {
+    font-size: 12px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--pr-border-light);
+    color: var(--pr-text-2);
+  }
+  .rune-content ul, .rune-content ol {
+    padding-left: 0;
+    list-style: none;
+    margin: 12px 0;
+  }
+  .rune-content li {
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--pr-text-2);
+    padding: 4px 0 4px 16px;
+    position: relative;
+    border-bottom: 1px solid var(--pr-border-light);
+  }
+  .rune-content li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--pr-text-3);
+    font-size: 10px;
+  }
+  .rune-content strong {
+    font-weight: 500;
+    color: var(--pr-text);
+  }
+</style>
