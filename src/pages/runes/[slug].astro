@@ -1,0 +1,30 @@
+---
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const runes = await getCollection('runes');
+  return runes.map(rune => ({
+    params: { slug: rune.id },
+    props: { rune },
+  }));
+}
+
+const { rune } = Astro.props;
+const { Content } = await render(rune);
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{rune.data.name} — Runestone</title>
+  </head>
+  <body>
+    <h1>{rune.data.name}</h1>
+    <p>Archetypes: {rune.data.archetypes.join(' + ')}</p>
+    <p>Radar: {rune.data.radar}</p>
+    <p>Test sentence: {rune.data.test_sentence}</p>
+    <Content />
+  </body>
+</html>
