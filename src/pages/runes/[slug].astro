@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import PressLayout from '../../components/PressLayout.astro';
+import RadarRow from '../../components/RadarRow.astro';
 
 export async function getStaticPaths() {
   const runes = await getCollection('runes');
@@ -13,8 +14,41 @@ export async function getStaticPaths() {
 const { rune } = Astro.props;
 const { Content } = await render(rune);
 const archetypes = rune.data.archetypes.join(' + ');
-const radarLabels = ['DEN','TEM','LUM','ENE','GEO','CHR','DEP','POS'];
 const radarValues = rune.data.radar.split('-').map(Number);
+const radarRows = [
+  {
+    label: 'Density',
+    interpretation: 'Purposeful — space is earned, not assumed. Components fill their container without cramping. No generous padding for its own sake.',
+  },
+  {
+    label: 'Temperature',
+    interpretation: 'Controlled neutral — neither warm nor cold. The orange provides energy without warmth. Off-white base is paper, not skin.',
+  },
+  {
+    label: 'Luminosity',
+    interpretation: 'Light-first — white base, dark type, orange structure. No dark mode variant in this rune. Contrast is maximum, always.',
+  },
+  {
+    label: 'Energy',
+    interpretation: 'Kinetic — hard press animations, snap transitions, no spring physics. Motion feels mechanical, not organic.',
+  },
+  {
+    label: 'Geometry',
+    interpretation: 'Fully geometric — border-radius: 0 everywhere without exception. Grid is visible and rigid. Asymmetry is permitted; softness is not.',
+  },
+  {
+    label: 'Chromatism',
+    interpretation: 'Near-monochrome — one structural colour (orange). Black, white, and off-white carry everything else. No secondary accent.',
+  },
+  {
+    label: 'Depth',
+    interpretation: 'Restrained — no box-shadows. Depth is created by border weight and background contrast alone. 2px borders at 0 radius read as physical objects stacked on a surface.',
+  },
+  {
+    label: 'Posture',
+    interpretation: 'Assertive — the interface has a point of view. It does not recede behind content. It frames it with authority.',
+  },
+];
 ---
 
 <PressLayout title={`${rune.data.name} — Runestone`}>
@@ -99,23 +133,9 @@ const radarValues = rune.data.radar.split('-').map(Number);
         <h2 style="font-family:var(--pr-font-display);font-size:22px;font-weight:800;letter-spacing:-0.03em;">Radar</h2>
         <span style="font-family:var(--pr-font-mono);font-size:9px;letter-spacing:.1em;color:var(--pr-orange);">{rune.data.radar}</span>
       </div>
-      <div style="display:grid;gap:0;border:2px solid var(--pr-border);">
-        {radarLabels.map((label, i) => (
-          <div style="
-            display: grid;
-            grid-template-columns: 60px 40px 1fr;
-            align-items: center;
-            gap: 16px;
-            padding: 10px 16px;
-            border-bottom: 1px solid var(--pr-border-light);
-            background: var(--pr-surface);
-          ">
-            <div style="font-family:var(--pr-font-mono);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:var(--pr-text-3);">{label}</div>
-            <div style="font-family:var(--pr-font-mono);font-size:13px;font-weight:500;color:var(--pr-orange);">{radarValues[i]}</div>
-            <div style="height:2px;background:var(--pr-border-light);">
-              <div style={`width:${radarValues[i] * 10}%;height:100%;background:var(--pr-orange);`}></div>
-            </div>
-          </div>
+      <div class="radar-list" style="display:grid;gap:0;border:2px solid var(--pr-border);background:var(--pr-surface);padding:0 16px;">
+        {radarRows.map((row, i) => (
+          <RadarRow label={row.label} score={radarValues[i]} interpretation={row.interpretation} />
         ))}
       </div>
     </div>
@@ -145,6 +165,9 @@ const radarValues = rune.data.radar.split('-').map(Number);
     margin: 48px 0 16px;
     padding-bottom: 10px;
     border-bottom: 2px solid var(--pr-border);
+  }
+  .radar-list :global(.radar-row:last-child) {
+    border-bottom: 0;
   }
   .rune-content h3 {
     font-family: var(--pr-font-display);
