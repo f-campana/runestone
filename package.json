@@ -13,8 +13,17 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/vite": "^4.2.4",
     "astro": "^6.1.9",
+    "class-variance-authority": "^0.7.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5",
     "tailwindcss": "^4.2.4"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "typescript": "^6.0.3"
   }
 }
