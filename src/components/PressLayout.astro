@@ -2,6 +2,7 @@
 export interface Props {
   title: string;
 }
+import pressTailwindHref from "../styles/press-tailwind.css?url";
 const { title } = Astro.props;
 ---
 
@@ -15,6 +16,7 @@ const { title } = Astro.props;
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/styles/press.css" />
+    <link rel="stylesheet" href={pressTailwindHref} />
   </head>
   <body>
     <nav style="

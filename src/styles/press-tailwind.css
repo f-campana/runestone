@@ -1,0 +1,87 @@
+@import "tailwindcss";
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@layer base {
+  :root,
+  [data-theme="light"],
+  [data-theme="dark"] {
+    color-scheme: light;
+
+    /* Press source tokens */
+    --pr-bg: oklch(97% 0.003 100);
+    --pr-surface: oklch(100% 0 0);
+    --pr-surface-mid: oklch(94% 0.004 100);
+    --pr-surface-dark: oklch(13% 0.005 60);
+    --pr-text: oklch(13% 0.005 60);
+    --pr-text-2: oklch(38% 0.008 60);
+    --pr-text-3: oklch(64% 0.008 60);
+    --pr-text-inv: oklch(97% 0.003 100);
+    --pr-orange: oklch(57% 0.205 38);
+    --pr-orange-dim: oklch(57% 0.205 38 / 0.08);
+    --pr-border: oklch(13% 0.005 60);
+    --pr-border-mid: oklch(80% 0.006 100);
+    --pr-border-light: oklch(88% 0.005 100);
+    --pr-font-display: "Syne", sans-serif;
+    --pr-font-body: "DM Sans", sans-serif;
+    --pr-font-mono: "JetBrains Mono", monospace;
+
+    /* Approved semantic aliases */
+    --pr-radius-control: 0px;
+    --pr-focus-ring: var(--pr-orange);
+    --pr-focus-ring-soft: var(--pr-orange-dim);
+    --pr-structure: var(--pr-orange);
+    --pr-foreground-subtle: var(--pr-text-3);
+
+    /* Tailwind runtime aliases */
+    --color-background: var(--pr-bg);
+    --color-foreground: var(--pr-text);
+    --color-surface: var(--pr-surface);
+    --color-surface-muted: var(--pr-surface-mid);
+    --color-surface-inverse: var(--pr-surface-dark);
+    --color-foreground-inverse: var(--pr-text-inv);
+    --color-card: var(--pr-surface);
+    --color-card-foreground: var(--pr-text);
+    --color-popover: var(--pr-surface);
+    --color-popover-foreground: var(--pr-text);
+    --color-muted: var(--pr-surface-mid);
+    --color-muted-foreground: var(--pr-text-2);
+    --color-border: var(--pr-border);
+    --color-border-subtle: var(--pr-border-light);
+    --color-border-strong: var(--pr-border);
+    --color-primary: var(--pr-orange);
+    --color-primary-foreground: var(--pr-text-inv);
+    --color-ring: var(--pr-focus-ring);
+    --color-ring-soft: var(--pr-focus-ring-soft);
+    --font-sans: var(--pr-font-body);
+    --font-serif: var(--pr-font-display);
+    --font-mono: var(--pr-font-mono);
+    --radius: var(--pr-radius-control);
+  }
+}
+
+@theme inline {
+  --color-background: var(--pr-bg);
+  --color-foreground: var(--pr-text);
+  --color-surface: var(--pr-surface);
+  --color-surface-muted: var(--pr-surface-mid);
+  --color-surface-inverse: var(--pr-surface-dark);
+  --color-foreground-inverse: var(--pr-text-inv);
+  --color-card: var(--pr-surface);
+  --color-card-foreground: var(--pr-text);
+  --color-popover: var(--pr-surface);
+  --color-popover-foreground: var(--pr-text);
+  --color-muted: var(--pr-surface-mid);
+  --color-muted-foreground: var(--pr-text-2);
+  --color-border: var(--pr-border);
+  --color-border-subtle: var(--pr-border-light);
+  --color-border-strong: var(--pr-border);
+  --color-primary: var(--pr-orange);
+  --color-primary-foreground: var(--pr-text-inv);
+  --color-ring: var(--pr-focus-ring);
+  --color-ring-soft: var(--pr-focus-ring-soft);
+  --font-sans: var(--pr-font-body);
+  --font-serif: var(--pr-font-display);
+  --font-mono: var(--pr-font-mono);
+  --radius: var(--pr-radius-control);
+}
