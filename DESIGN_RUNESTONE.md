@@ -22,6 +22,11 @@ colors:
   border: "oklch(13% 0.005 60)"
   border-mid: "oklch(80% 0.006 100)"
   border-light: "oklch(88% 0.005 100)"
+  radius-control: "0px"
+  focus-ring: "{colors.accent-orange}"
+  focus-ring-soft: "{colors.accent-orange-dim}"
+  structure: "{colors.accent-orange}"
+  foreground-subtle: "{colors.text-tertiary}"
 
 typography:
   display:
@@ -157,6 +162,16 @@ success/error states (which use standard system greens/reds at minimum footprint
   Yes → proceed
   No  → STOP. Additional colours dilute the structural authority of the orange.
         Remove all non-orange, non-neutral colour decisions.
+```
+
+**Rule 6 — Semantic aliases are binding.**
+```text
+Are `radius-control`, `focus-ring`, `focus-ring-soft`, `structure`, and
+`foreground-subtle` preserved exactly as defined in this contract, with no
+project-level overrides?
+  Yes → proceed
+  No  → STOP. These aliases are part of the Press design contract and must not
+        be overridden at the project level.
 ```
 
 ## Page Structure
