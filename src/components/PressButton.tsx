@@ -1,3 +1,5 @@
+// Hydration: in Astro, use client:* on the .astro page.
+// In RSC frameworks (Next.js App Router), add 'use client' here.
 import { Button as ButtonPrimitive } from '@base-ui-components/react/button'
 import { cva, type VariantProps } from 'class-variance-authority'
 
