@@ -1,0 +1,310 @@
+---
+import { createElement } from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+
+import { PressButton } from '../components/PressButton';
+
+type VariantKey = 'primary' | 'ghost';
+
+interface VariantDefinition {
+  key: VariantKey;
+  label: string;
+  buttonText: string;
+}
+
+interface StateDefinition {
+  key: 'default' | 'hover' | 'active' | 'disabled' | 'focus';
+  label: string;
+  note: string;
+  disabled?: boolean;
+  fullWidth?: boolean;
+}
+
+const variants: VariantDefinition[] = [
+  { key: 'primary', label: 'Primary', buttonText: 'Dispatch Rune' },
+  { key: 'ghost', label: 'Ghost', buttonText: 'Inspect Rune' },
+];
+
+const states: StateDefinition[] = [
+  {
+    key: 'default',
+    label: 'DEFAULT',
+    note: 'Resting state with no simulated interaction.',
+  },
+  {
+    key: 'hover',
+    label: 'HOVER',
+    note: 'Hover the live button to inspect the CSS-only color shift.',
+  },
+  {
+    key: 'active',
+    label: 'ACTIVE',
+    note: 'Press and hold to inspect the live press state.',
+  },
+  {
+    key: 'disabled',
+    label: 'DISABLED',
+    note: 'Disabled state. Action unavailable in this condition.',
+    disabled: true,
+  },
+  {
+    key: 'focus',
+    label: 'FOCUS',
+    note: 'Tab here to reveal the native Press focus ring.',
+    fullWidth: true,
+  },
+];
+
+const renderButton = (
+  variant: VariantKey,
+  buttonText: string,
+  disabled = false,
+) =>
+  renderToStaticMarkup(
+    createElement(
+      PressButton,
+      {
+        disabled,
+        type: 'button',
+        variant,
+      },
+      buttonText,
+    ),
+  );
+---
+
+<section class="press-gallery" aria-labelledby="press-gallery-title">
+  <div class="press-gallery__inner">
+    <header class="press-gallery__header">
+      <h2 class="press-gallery__title" id="press-gallery-title">Press Gallery</h2>
+      <span class="press-gallery__count">02 variants · 10 live buttons</span>
+    </header>
+
+    <p class="press-gallery__intro">
+      Evaluate the Press button grammar before dispatching <code>design/curator</code>.
+      Every tile is a live button, so hover, press, and keyboard focus remain native.
+    </p>
+
+    <p class="press-gallery__focus-note">
+      <span class="press-gallery__focus-note-rule" aria-hidden="true"></span>
+      <span>Focus ring appears on keyboard Tab. It is not simulated with JavaScript.</span>
+    </p>
+
+    <div class="press-gallery__columns">
+      {variants.map((variant) => (
+        <section class="press-gallery__column" aria-labelledby={`press-gallery-${variant.key}`}>
+          <div class="press-gallery__eyebrow" id={`press-gallery-${variant.key}`}>
+            <span class="press-gallery__eyebrow-rule" aria-hidden="true"></span>
+            <span>{variant.label}</span>
+          </div>
+
+          <div class="press-gallery__states">
+            {states.map((state) => (
+              <article
+                class:list={[
+                  'press-gallery__state',
+                  state.fullWidth && 'press-gallery__state--full-width',
+                ]}
+              >
+                <div
+                  class="press-gallery__button-frame"
+                  set:html={renderButton(variant.key, variant.buttonText, state.disabled)}
+                />
+                <div class="press-gallery__state-label">{state.label}</div>
+                <p class="press-gallery__state-note">{state.note}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .press-gallery {
+    padding: var(--pr-section-pad) var(--pr-page-margin);
+    background: var(--pr-surface-bg);
+    border-bottom: 2px solid var(--pr-border);
+  }
+
+  .press-gallery__inner {
+    max-width: var(--pr-max-width);
+    margin: 0 auto;
+  }
+
+  .press-gallery__header {
+    padding: 12px 0 10px;
+    border-bottom: 2px solid var(--pr-border);
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+
+  .press-gallery__title {
+    font-family: var(--pr-font-display);
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    color: var(--pr-text);
+  }
+
+  .press-gallery__count {
+    font-family: var(--pr-font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--pr-orange);
+    white-space: nowrap;
+  }
+
+  .press-gallery__intro {
+    max-width: 680px;
+    margin-bottom: 16px;
+    font-family: var(--pr-font-body);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--pr-text-2);
+  }
+
+  .press-gallery__intro code {
+    font-family: var(--pr-font-mono);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--pr-text);
+    background: var(--pr-surface-mid);
+    border: 2px solid var(--pr-border-light);
+    padding: 2px 6px;
+    text-transform: uppercase;
+  }
+
+  .press-gallery__focus-note {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+    font-family: var(--pr-font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--pr-text-2);
+  }
+
+  .press-gallery__focus-note-rule,
+  .press-gallery__eyebrow-rule {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--pr-structure);
+    flex: 0 0 auto;
+  }
+
+  .press-gallery__columns {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+  }
+
+  .press-gallery__column {
+    border: 2px solid var(--pr-border);
+    background: var(--pr-surface);
+    padding: 20px 24px 24px;
+  }
+
+  .press-gallery__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    font-family: var(--pr-font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--pr-text-2);
+  }
+
+  .press-gallery__states {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .press-gallery__state {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-height: 154px;
+    padding: 16px;
+    border: 2px solid var(--pr-border-mid);
+    background: var(--pr-surface-bg);
+  }
+
+  .press-gallery__state--full-width {
+    grid-column: 1 / -1;
+    min-height: auto;
+  }
+
+  .press-gallery__button-frame {
+    min-height: 40px;
+    display: flex;
+    align-items: flex-start;
+  }
+
+  .press-gallery__button-frame :global(button) {
+    max-width: 100%;
+  }
+
+  .press-gallery__state-label {
+    font-family: var(--pr-font-mono);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    line-height: 1;
+    text-transform: uppercase;
+    color: var(--pr-text);
+  }
+
+  .press-gallery__state-note {
+    font-family: var(--pr-font-body);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: var(--pr-text-2);
+  }
+
+  @media (max-width: 900px) {
+    .press-gallery__columns {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .press-gallery__header {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .press-gallery__column {
+      padding: 16px;
+    }
+
+    .press-gallery__states {
+      grid-template-columns: 1fr;
+    }
+
+    .press-gallery__state--full-width {
+      grid-column: auto;
+    }
+  }
+</style>

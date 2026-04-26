@@ -1,6 +1,7 @@
 ---
 import { getCollection, render } from 'astro:content';
 import PressLayout from '../../components/PressLayout.astro';
+import PressGallery from '../../components/PressGallery.astro';
 import RadarRow from '../../components/RadarRow.astro';
 import RuneHero from '../../components/RuneHero.astro';
 
@@ -86,6 +87,8 @@ const radarRows = [
       </div>
     </div>
   </section>
+
+  <PressGallery />
 
   <!-- CONTENT -->
   <section style="
