@@ -20,11 +20,13 @@
   --pr-max-width:       1200px;
 }
 
-*, *::before, *::after {
-  box-sizing: border-box;
-  border-radius: 0;
-  margin: 0;
-  padding: 0;
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
+  }
 }
 
 html {
