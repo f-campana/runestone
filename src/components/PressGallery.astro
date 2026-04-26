@@ -105,6 +105,7 @@ const renderButton = (
                   'press-gallery__state',
                   state.fullWidth && 'press-gallery__state--full-width',
                 ]}
+                data-state={state.key}
               >
                 <div
                   class="press-gallery__button-frame"
@@ -263,6 +264,28 @@ const renderButton = (
 
   .press-gallery__button-frame :global(button) {
     max-width: 100%;
+  }
+
+  .press-gallery__column[aria-labelledby='press-gallery-primary'] [data-state='hover']
+    :global(.press-gallery__button-frame button:not([disabled])) {
+    border-color: var(--pr-orange) !important;
+    background-color: var(--pr-orange) !important;
+  }
+
+  .press-gallery__column[aria-labelledby='press-gallery-ghost'] [data-state='hover']
+    :global(.press-gallery__button-frame button:not([disabled])) {
+    border-color: var(--pr-orange) !important;
+    background-color: var(--pr-orange-dim) !important;
+    color: var(--pr-orange) !important;
+  }
+
+  [data-state='active'] :global(.press-gallery__button-frame button:not([disabled])) {
+    transform: translateY(1px);
+  }
+
+  [data-state='focus'] :global(.press-gallery__button-frame button) {
+    outline: 2px solid var(--pr-focus-ring);
+    outline-offset: 2px;
   }
 
   .press-gallery__state-label {
